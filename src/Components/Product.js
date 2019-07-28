@@ -54,7 +54,7 @@ class Product extends Component {
     }
   }
 
-  handleChange = e => {
+  handleQuantity = e => {
     this.setState({
       quantity: e.target.value
     });
@@ -122,7 +122,7 @@ class Product extends Component {
                 name="quantity"
                 id="quantity"
                 value={this.state.quantity}
-                onChange={this.handleChange}
+                onChange={this.handleQuantity}
               />
               <input type="button" onClick={this.incQuantity} value="+" />
               <input type="button" onClick={this.decQuantity} value="-" />

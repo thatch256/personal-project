@@ -9,15 +9,14 @@ module.exports = {
       if (!existingUser) return res.status(401).send('Email not found');
       let result = await bcrypt.compare(password, existingUser.password);
       let cart = await db.get_user_cart(existingUser.id)
-      if(!cart[0]) cart = await db.create_cart([existingUser.id, "cart"])
+      if(!cart) cart = await db.create_cart([existingUser.id, "cart"])
       if (result) {
         req.session.user = {
           email: existingUser.email,
           id: existingUser.id,
           loggedIn: true,
           is_admin: existingUser.is_admin,
-          user_cart_id: cart[0].list_id,
-          cartItems: cart[0].name ? cart : []
+          user_cart_id: cart
         };
         res.send(req.session.user);
       } else res.status(401).send('Email or password incorrect');

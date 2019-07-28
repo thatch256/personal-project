@@ -2,7 +2,8 @@ import axios from 'axios'
 import {REGISTER, LOGIN, LOGOUT, GET_USER} from './actionTypes'
 
 const initialState = {
-    user: {},
+    user: {
+    },
     error: false,
     redirect: false
 }

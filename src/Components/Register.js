@@ -28,7 +28,7 @@ class Register extends Component {
   render() {
     let { email, password } = this.state;
     let { user } = this.props;
-    if (user.loggedIn) return <Redirect to="/" />;
+    if (user.loggedIn) return <Redirect to="/home" />;
     return (
       <div>
         <div>

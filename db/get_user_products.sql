@@ -3,4 +3,4 @@ from products p
 join list_products lp on p.id = lp.product_id
 join list l on l.id = lp.list_id
 join users u on u.id = l.user_id
-where u.id = $1;
+where u.id = 4;

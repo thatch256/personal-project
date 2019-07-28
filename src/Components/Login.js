@@ -20,6 +20,12 @@ class Login extends Component {
     });
   };
 
+  handleKeyDown = (e) => {
+    if (e.keyCode === 13) {
+      this.loginUser()
+    }
+  }
+
   loginUser = () => {
     let { email, password } = this.state;
     this.props.login(email, password);
@@ -48,8 +54,9 @@ class Login extends Component {
               value={password}
               name="password"
               onChange={this.handleChange}
+              onKeyDown={this.handleKeyDown}
             />
-            <button onClick={this.loginUser}>Login</button>
+            <button onClick={this.loginUser} >Login</button>
           </div>
         </div>
       </div>
