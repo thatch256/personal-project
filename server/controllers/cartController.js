@@ -2,18 +2,23 @@ module.exports = {
     async getUserCart(req, res) {
         let {id} = req.params
         const db = req.app.get('db')
-        let cartProducts = await db.get_user_products(+id)
-        console.log(cartProducts)
-        res.send(cartProducts)
+        let cartItems = await db.get_user_products(+id)
+        res.send(cartItems)
     },
-    async addToCart(req, res) {
-        let {product_id, quantity} = req.body
-        let {list_id} = req.session.user
+    async addToCart(req, res) { 
+        let {product_id, list_id, quantity} = req.body
         const db = req.app.get('db')
-        let cart = await db.add_to_cart([product_id, list_id, quantity])
-        res.send(cart)
+        let cartItems = await db.add_to_cart([product_id, +list_id[0].list_id, quantity])
+        res.send(cartItems)
+        
     },
-    async removeFromCart(req, res) {
-
+    async removeFromCart(req, res) { 
+        let {id} = req.params
+        const db = req.app.get('db')
+        let cartItems = await db.remove_from_cart([+id, req.session.user.id])
+        res.send(cartItems)
+    },
+    async emptyCart(req, res) {
+        
     }
 }

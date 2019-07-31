@@ -8,7 +8,11 @@ function Header(props) {
     <div className="header">
       {props.user.loggedIn ? (
         <div>
+        <Link to='/'>Products</Link>
+        {' '}
         <Link to='/cart'>Cart</Link>
+        {' '}
+        <Link to='/orders'>Orders</Link>
         {' '}
         <button onClick={props.logout}>
           Logout

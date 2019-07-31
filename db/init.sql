@@ -15,7 +15,7 @@ CREATE TABLE PRODUCTS (
 CREATE TABLE ORDERS (
 	id serial primary key,
 	user_id integer NOT NULL unique,
-	timestamp TIMESTAMP NOT NULL
+	order_date DATE NOT NULL default current_date
 );
 
 CREATE TABLE ORDERS_PRODUCTS (

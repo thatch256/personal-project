@@ -8,7 +8,6 @@ module.exports = {
       let { productId } = req.params;
       const db = req.app.get('db');
       let products = await db.delete_product([+productId]);
-    //   console.log(products);
       res.send(products);
     },
     async editProduct(req, res) {

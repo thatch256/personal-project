@@ -8,6 +8,7 @@ const pc = require('./controllers/productController')
 const initSession = require('./middleware/initSession')
 const authCheck = require('./middleware/authCheck')
 const cc = require('./controllers/cartController')
+const oc = require('./controllers/orderController')
 
 const app = express()
 
@@ -34,6 +35,11 @@ app.put('/api/products/edit/:productId', authCheck.adminsOnly, pc.editProduct)
 app.post('/api/products', authCheck.adminsOnly, pc.addProduct)
 
 app.get(`/api/cart/:id`, authCheck.usersOnly, cc.getUserCart)
+app.post('/api/cart', authCheck.usersOnly, cc.addToCart)
+app.delete('/api/cart/:id', authCheck.usersOnly, cc.removeFromCart)
+
+app.post('/api/orders', authCheck.usersOnly, oc.createOrder)
+app.get('/api/orders/:id', authCheck.usersOnly, oc.getUserOrders)
 
 app.listen(SERVER_PORT, () => {
     console.log(`Listening on port ${SERVER_PORT}`)

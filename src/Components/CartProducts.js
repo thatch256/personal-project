@@ -1,13 +1,12 @@
 import React, { Component } from "react";
-// import { connect } from "react-redux";
+import {removeFromCart} from '../ducks/cartReducer'
+import { connect } from "react-redux";
 
 class CartProducts extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-        quantity: 0
-    }
+  removeItem = () => {
+    let {id, removeFromCart} = this.props
+    removeFromCart(id)
   }
 
   render() {
@@ -18,13 +17,14 @@ class CartProducts extends Component {
         <h5>{category}</h5>
         <h3>${currentPrice}</h3>
         <h4>Quantity: {quantity}</h4>
+        <button onClick={this.removeItem}>Remove From Cart</button>
       </div>
     );
   }
 }
 
-// function mapStateToProps(state) {
-//     return {}
-// }
+function mapStateToProps(state) {
+    return state
+}
 
-export default CartProducts;
+export default connect(mapStateToProps, {removeFromCart})(CartProducts);

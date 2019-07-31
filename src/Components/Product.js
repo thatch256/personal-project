@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { deleteProduct, editProduct } from "../ducks/productReducer";
+import {addToCart} from '../ducks/cartReducer'
 
 class Product extends Component {
   constructor(props) {
@@ -66,7 +67,6 @@ class Product extends Component {
         quantity: prevState.quantity + 1
       };
     });
-    console.log(this.state.quantity);
   };
 
   decQuantity = () => {
@@ -79,11 +79,18 @@ class Product extends Component {
         return null;
       }
     });
-    console.log(this.state.quantity)
   };
 
+  addItemToCart = (id) => {
+    let {addToCart} = this.props
+    let {quantity} = this.state
+    let {user_cart_id} = this.props.user
+    if (quantity !== 0) {
+      addToCart(id, user_cart_id, quantity)}
+  }
+
   render() {
-    let { name, category, current_price: currentPrice } = this.props;
+    let { name, category, current_price: currentPrice, id } = this.props;
     let { newName, newCategory, newCurrentPrice, editing } = this.state;
     return (
       <div className="product-container">
@@ -127,7 +134,7 @@ class Product extends Component {
               <input type="button" onClick={this.incQuantity} value="+" />
               <input type="button" onClick={this.decQuantity} value="-" />
             </form>
-            <button>Add To Cart</button>
+            <button onClick={() => this.addItemToCart(id)}>Add To Cart</button>
             {this.props.user.is_admin ? (
               <div>
                 <button onClick={this.flipEdit}>Edit</button>
@@ -147,5 +154,5 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  { deleteProduct, editProduct }
+  { deleteProduct, editProduct, addToCart }
 )(Product);
