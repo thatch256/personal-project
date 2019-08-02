@@ -37,9 +37,11 @@ app.post('/api/products', authCheck.adminsOnly, pc.addProduct)
 app.get(`/api/cart/:id`, authCheck.usersOnly, cc.getUserCart)
 app.post('/api/cart', authCheck.usersOnly, cc.addToCart)
 app.delete('/api/cart/:id', authCheck.usersOnly, cc.removeFromCart)
+app.delete('/api/emptycart/:id', authCheck.usersOnly, cc.emptyCart)
 
 app.post('/api/orders', authCheck.usersOnly, oc.createOrder)
 app.get('/api/orders/:id', authCheck.usersOnly, oc.getUserOrders)
+app.delete('/api/orders/:id', authCheck.usersOnly, oc.cancelOrder)
 
 app.listen(SERVER_PORT, () => {
     console.log(`Listening on port ${SERVER_PORT}`)

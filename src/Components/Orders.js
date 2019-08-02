@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { getUserOrders } from "../ducks/orderReducer";
 import { getUser } from "../ducks/userReducer";
 import OrderItems from "./OrderItems";
+import { Redirect } from "react-router-dom";
 
 class Orders extends Component {
   componentDidMount() {
@@ -15,10 +16,11 @@ class Orders extends Component {
   }
 
   render() {
-    let { orderItems } = this.props;
+    let { orderItems, error, redirect } = this.props;
     let arrayOfIds = [];
     orderItems.forEach(item => arrayOfIds.push(item.order_id));
     let filteredIdArray = [...new Set(arrayOfIds)];
+    if (error || redirect) return <Redirect to="/home" />;
     return (
       <div>
         {!orderItems.length ? (

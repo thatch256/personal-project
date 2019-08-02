@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getUserCart } from "../ducks/cartReducer";
+import { getUserCart, emptyCart } from "../ducks/cartReducer";
 import { getUser } from "../ducks/userReducer";
 import { Redirect } from "react-router-dom";
 import CartProducts from "./CartProducts";
-import {addToOrder} from '../ducks/orderReducer'
+import { addToOrder } from "../ducks/orderReducer";
 
 class Cart extends Component {
-
   componentDidMount() {
     let { getUser, getUserCart } = this.props;
     let { id } = this.props.user;
@@ -26,14 +25,17 @@ class Cart extends Component {
     return newTotal;
   };
 
-  emptyCart = () => {
-    
-  }
+  emptyCartItems = () => {
+    let { emptyCart } = this.props;
+    let { user_cart_id } = this.props.user;
+    emptyCart(user_cart_id);
+  };
 
   checkout = () => {
-    let {addToOrder, cartItems} = this.props
-    addToOrder(cartItems)
-  }
+    let { addToOrder, cartItems } = this.props;
+    addToOrder(cartItems);
+    this.emptyCartItems();
+  };
 
   render() {
     let { user, redirect, error, cartItems } = this.props;
@@ -65,5 +67,5 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  { getUser, getUserCart, addToOrder }
+  { getUser, getUserCart, addToOrder, emptyCart }
 )(Cart);

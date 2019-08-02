@@ -8,7 +8,7 @@ module.exports = {
     let [existingUser] = await db.get_user_by_email(email);
     if (!existingUser) return res.status(401).send("Email not found");
     let result = await bcrypt.compare(password, existingUser.password);
-    let cartID = await db.get_user_cart_id(existingUser.id);
+    let [cartID] = await db.get_user_cart_id(existingUser.id);
     if (!cartID) {
       cartID = await db.create_cart([existingUser.id, "cart"]);
     }
@@ -19,7 +19,7 @@ module.exports = {
         id: existingUser.id,
         loggedIn: true,
         is_admin: existingUser.is_admin,
-        user_cart_id: cartID,
+        user_cart_id: cartID.list_id,
         user_cart_items: cartItems
       };
       res.send(req.session.user);
@@ -33,13 +33,13 @@ module.exports = {
     let salt = await bcrypt.genSalt(saltRounds);
     let hash = await bcrypt.hash(password, salt);
     let [user] = await db.create_user([is_admin, email, hash]);
-    let cartID = await db.create_cart([user.id, "cart"]);
+    let [cartID] = await db.create_cart([user.id, "cart"]);
     req.session.user = {
       is_admin: user.is_admin,
       email: user.email,
       id: user.id,
       loggedIn: true,
-      user_cart_id: cartID
+      user_cart_id: cartID.list_id
     };
 
     res.send(req.session.user);

@@ -20,6 +20,11 @@ module.exports = {
       const db = req.app.get('db')
       let orderItems = await db.get_user_orders(+id)
       res.send(orderItems)
+  },
+  async cancelOrder(req, res) {
+    let {id} = req.params
+    const db = req.app.get('db')
+    let orderItems = await db.cancel_order([+id, req.session.user.id])
+    res.send(orderItems)
   }
-  //   async cancelOrder(req, res) {}
 };

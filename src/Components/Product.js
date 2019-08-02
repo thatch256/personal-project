@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { deleteProduct, editProduct } from "../ducks/productReducer";
-import {addToCart} from '../ducks/cartReducer'
+import { addToCart } from "../ducks/cartReducer";
 
 class Product extends Component {
   constructor(props) {
@@ -81,13 +81,12 @@ class Product extends Component {
     });
   };
 
-  addItemToCart = (id) => {
-    let {addToCart} = this.props
-    let {quantity} = this.state
-    let {user_cart_id} = this.props.user
-    if (quantity !== 0) {
-      addToCart(id, user_cart_id, quantity)}
-  }
+  addItemToCart = id => {
+    let { addToCart } = this.props;
+    let { quantity } = this.state;
+    let { user_cart_id } = this.props.user;
+    addToCart(id, user_cart_id, quantity);
+  };
 
   render() {
     let { name, category, current_price: currentPrice, id } = this.props;
@@ -149,7 +148,7 @@ class Product extends Component {
 }
 
 function mapStateToProps(state) {
-  return { ...state.user };
+  return { ...state.user, ...state.cartItems };
 }
 
 export default connect(

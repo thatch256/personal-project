@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {ADD_TO_CART, GET_USER_CART, REMOVE_FROM_CART} from './actionTypes'
+import {ADD_TO_CART, GET_USER_CART, REMOVE_FROM_CART, EMPTY_CART} from './actionTypes'
 
 const initialState  = {
     cartItems: [],
@@ -26,6 +26,13 @@ export function removeFromCart(id) {
     return {type: REMOVE_FROM_CART, payload: data}
 }
 
+export function emptyCart(id) {
+    let data = axios.delete(`/api/emptycart/${id}`)
+    .then(res => res.data)
+    .catch(console.log)
+    return {type: EMPTY_CART, payload: data}
+}
+
 export default function cartReducer(state = initialState, action) {
     let {type, payload} = action
     switch(type) {
@@ -34,6 +41,8 @@ export default function cartReducer(state = initialState, action) {
         case ADD_TO_CART + '_FULFILLED':
             return {...state, cartItems: payload}
         case REMOVE_FROM_CART + '_FULFILLED':
+            return {...state, cartItems: payload}
+        case EMPTY_CART + '_FULFILLED':
             return {...state, cartItems: payload}
         default: return state
     }
