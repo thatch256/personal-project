@@ -9,7 +9,7 @@ const initSession = require('./middleware/initSession')
 const authCheck = require('./middleware/authCheck')
 const cc = require('./controllers/cartController')
 const oc = require('./controllers/orderController')
-const path = require('path')
+// const path = require('path')
 
 const app = express()
 
@@ -20,10 +20,10 @@ app.use(session({
     resave: false,
     cookie: {maxAge: 1000 * 60 * 60 * 24 * 365}
 }))
-app.use(express.static(__dirname + '../build'))
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../build/index.html'))
-})
+app.use(express.static(__dirname + '/../build'))
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../build/index.html'))
+// })
 
 massive(CONNECTION_STRING).then(db => app.set('db', db))
 
