@@ -4,6 +4,7 @@ where order_id = $1;
 select u.id, 
 p.id, 
 p.name,
+p.image_source,
 op.id, 
 op.product_id, 
 op.price, 

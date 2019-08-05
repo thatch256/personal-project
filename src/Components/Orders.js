@@ -1,18 +1,22 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getUserOrders } from "../ducks/orderReducer";
+import { getUserOrders, getAllOrders } from "../ducks/orderReducer";
 import { getUser } from "../ducks/userReducer";
 import OrderItems from "./OrderItems";
 import { Redirect } from "react-router-dom";
 
 class Orders extends Component {
   componentDidMount() {
-    let { getUserOrders, getUser } = this.props;
+    let { getUserOrders, getUser, getAllOrders } = this.props;
     let { id } = this.props.user;
     if (!this.props.user.loggedIn) {
       getUser();
     }
-    getUserOrders(id);
+    if (!this.props.user.is_admin) {
+      getUserOrders(id);
+    } else {
+      getAllOrders();
+    }
   }
 
   render() {
@@ -45,5 +49,5 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  { getUserOrders, getUser }
+  { getUserOrders, getAllOrders, getUser }
 )(Orders);

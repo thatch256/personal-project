@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {CREATE_ORDER, ADD_TO_ORDER, GET_USER_ORDERS, CANCEL_ORDER} from './actionTypes'
+import {CREATE_ORDER, ADD_TO_ORDER, GET_USER_ORDERS, CANCEL_ORDER, GET_ALL_ORDERS} from './actionTypes'
 
 const initialState = {
     orderItems: [],
@@ -33,6 +33,15 @@ export function getUserOrders(id) {
     }
 }
 
+export function getAllOrders() {
+    let data = axios.get('/api/orders')
+    .then(res => res.data)
+    return {
+        type: GET_ALL_ORDERS,
+        payload: data
+    }
+}
+
 export function cancelOrder(id) {
     let data = axios.delete(`/api/orders/${id}`)
     .then(res => res.data)
@@ -52,6 +61,8 @@ export default function orderReducer(state = initialState, action) {
         case GET_USER_ORDERS + '_FULFILLED':
             return {error: false, orderItems: payload}
         case CANCEL_ORDER + '_FULFILLED':
+            return {error: false, orderItems: payload}
+        case GET_ALL_ORDERS + '_FULFILLED':
             return {error: false, orderItems: payload}
         default: return state
     }

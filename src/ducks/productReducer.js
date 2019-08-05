@@ -18,14 +18,14 @@ export function deleteProduct(productId) {
     return {type: DELETE_PRODUCT, payload: data}
 }
 
-export function editProduct(productId, newName, newCategory, newCurrentPrice) {
-    let data = axios.put(`/api/products/edit/${productId}`, {newName, newCategory, newCurrentPrice})
+export function editProduct(productId, newName, newCategory, newCurrentPrice, newImageSource) {
+    let data = axios.put(`/api/products/edit/${productId}`, {newName, newCategory, newCurrentPrice, newImageSource})
     .then(res => res.data)
     return {type: EDIT_PRODUCT, payload:data}
 }
 
-export function addProduct(name, category, currentPrice) {
-    let data = axios.post('/api/products', { name, category, currentPrice }).then(res => res.data);
+export function addProduct(name, category, currentPrice, imageSource) {
+    let data = axios.post('/api/products', { name, category, currentPrice, imageSource }).then(res => res.data);
     return {
       type: ADD_PRODUCT,
       payload: data

@@ -13,13 +13,14 @@ class Header extends Component {
     return (
       <div className="header">
         {this.props.user.loggedIn ? (
-          <div>
+          <div className='header-main'>
+            <h1 className='header-logo'>Hatch's Pins and Patches</h1>
             <Link to="/">Products</Link> <Link to="/cart">Cart</Link>{" "}
             <Link to="/orders">Orders</Link>{" "}
             <button onClick={this.backToHome}>Logout</button>
           </div>
         ) : (
-          <span>
+          <span className='header-main'>
             <Link to="/login">Login</Link> <Link to="/register">Register</Link>
           </span>
         )}

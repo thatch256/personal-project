@@ -14,6 +14,4 @@ from products p
 join order_products op on op.product_id = p.id
 join orders o on o.id = op.order_id
 join users u on u.id = o.user_id
-where u.id = $1;
-
 

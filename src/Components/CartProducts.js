@@ -10,12 +10,13 @@ class CartProducts extends Component {
   }
 
   render() {
-    let { name, category, current_price: currentPrice, quantity } = this.props;
+    let { name, category, current_price: currentPrice, image_source: imageSource, quantity } = this.props;
     return (
       <div>
         <h4>{name}</h4>
         <h5>{category}</h5>
         <h3>${currentPrice}</h3>
+        <img alt='product' src={imageSource} />
         <h4>Quantity: {quantity}</h4>
         <button onClick={this.removeItem}>Remove From Cart</button>
       </div>

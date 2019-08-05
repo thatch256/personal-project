@@ -12,6 +12,7 @@ class Product extends Component {
       newName: props.name,
       newCategory: props.category,
       newCurrentPrice: props.currentPrice,
+      newImageSource: props.imageSource,
       quantity: 0
     };
   }
@@ -35,21 +36,23 @@ class Product extends Component {
 
   save = () => {
     let { id, editProduct } = this.props;
-    let { newName, newCategory, newCurrentPrice } = this.state;
-    editProduct(id, newName, newCategory, newCurrentPrice);
+    let { newName, newCategory, newCurrentPrice, newImageSource } = this.state;
+    editProduct(id, newName, newCategory, newCurrentPrice, newImageSource);
   };
 
   componentDidUpdate(prevProps) {
-    let { name, category, currentPrice } = prevProps;
+    let { name, category, currentPrice, imageSource } = prevProps;
     if (
       name !== this.props.name ||
       category !== this.props.category ||
-      currentPrice !== this.props.currentPrice
+      currentPrice !== this.props.currentPrice || 
+      imageSource !== this.props.imageSource
     ) {
       this.setState({
         newName: name,
         newCategory: category,
         newCurrentPrice: currentPrice,
+        newImageSource: imageSource,
         editing: false
       });
     }
@@ -89,8 +92,8 @@ class Product extends Component {
   };
 
   render() {
-    let { name, category, current_price: currentPrice, id } = this.props;
-    let { newName, newCategory, newCurrentPrice, editing } = this.state;
+    let { name, category, current_price: currentPrice, image_source: imageSource, id } = this.props;
+    let { newName, newCategory, newCurrentPrice, newImageSource, editing } = this.state;
     return (
       <div className="product-container">
         {editing ? (
@@ -111,16 +114,23 @@ class Product extends Component {
               onChange={this.handleChange}
               name="newCurrentPrice"
             />
+             <input
+              type="text"
+              value={newImageSource}
+              onChange={this.handleChange}
+              name="newImageSource"
+            />
             <div>
               <button onClick={this.save}>Save Changes</button>
               <button onClick={this.flipEdit}>Cancel</button>
             </div>
           </div>
         ) : (
-          <div>
-            <h4>{name}</h4>
-            <h5>{category}</h5>
-            <h3>${currentPrice}</h3>
+          <div className='main-content'>
+            <h1 className='product-name'>{name}</h1>
+            <h5 className='product-category'>{category}</h5>
+            <h3 className='product-price'>${currentPrice}</h3>
+            <img alt='product' src={imageSource} />
             <label>Quantity: </label>
             <form>
               <input
@@ -148,7 +158,7 @@ class Product extends Component {
 }
 
 function mapStateToProps(state) {
-  return { ...state.user, ...state.cartItems };
+  return { ...state.user, };
 }
 
 export default connect(

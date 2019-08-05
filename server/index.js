@@ -9,6 +9,7 @@ const initSession = require('./middleware/initSession')
 const authCheck = require('./middleware/authCheck')
 const cc = require('./controllers/cartController')
 const oc = require('./controllers/orderController')
+const path = require('path')
 
 const app = express()
 
@@ -19,6 +20,10 @@ app.use(session({
     resave: false,
     cookie: {maxAge: 1000 * 60 * 60 * 24 * 365}
 }))
+app.use(express.static(__dirname + '/../build'))
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '/../build/index.html'))
+})
 
 massive(CONNECTION_STRING).then(db => app.set('db', db))
 
@@ -38,10 +43,14 @@ app.get(`/api/cart/:id`, authCheck.usersOnly, cc.getUserCart)
 app.post('/api/cart', authCheck.usersOnly, cc.addToCart)
 app.delete('/api/cart/:id', authCheck.usersOnly, cc.removeFromCart)
 app.delete('/api/emptycart/:id', authCheck.usersOnly, cc.emptyCart)
+app.post('/api/payment', authCheck.usersOnly, cc.pay)
 
 app.post('/api/orders', authCheck.usersOnly, oc.createOrder)
 app.get('/api/orders/:id', authCheck.usersOnly, oc.getUserOrders)
+app.get('/api/orders', authCheck.adminsOnly, oc.getAllOrders)
 app.delete('/api/orders/:id', authCheck.usersOnly, oc.cancelOrder)
+
+
 
 app.listen(SERVER_PORT, () => {
     console.log(`Listening on port ${SERVER_PORT}`)

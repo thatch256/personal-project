@@ -53,6 +53,7 @@ class OrderItems extends Component {
                     Item: {orderItem.name}
                     Price: {orderItem.price}
                     Quantity: {orderItem.quantity}
+                    <img alt='product' src={orderItem.imageSource} />
                   </div>
                 ))}
               </div>

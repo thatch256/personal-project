@@ -18,7 +18,6 @@ class Dashboard extends Component {
        if (!user.loggedIn) return <div>Loading</div>
        return (
        <div>
-           <h3>Products</h3>
            <Products />
        </div>
        )

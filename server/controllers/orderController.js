@@ -21,6 +21,12 @@ module.exports = {
       let orderItems = await db.get_user_orders(+id)
       res.send(orderItems)
   },
+  async getAllOrders(req, res) { 
+    const db = req.app.get('db')
+    let orders = await db.get_all_orders()
+    res.send(orders)
+      
+  },
   async cancelOrder(req, res) {
     let {id} = req.params
     const db = req.app.get('db')

@@ -12,20 +12,21 @@ module.exports = {
     },
     async editProduct(req, res) {
       let { productId } = req.params;
-      let { newName, newCategory, newCurrentPrice } = req.body;
+      let { newName, newCategory, newCurrentPrice, newImageSource } = req.body;
       const db = req.app.get('db');
       let products = await db.edit_product([
         +productId,
         newName,
         newCategory,
-        newCurrentPrice
+        newCurrentPrice,
+        newImageSource
       ]);
       res.send(products);
     },
     async addProduct(req, res) {
-      let { name, category, currentPrice } = req.body;
+      let { name, category, currentPrice, imageSource } = req.body;
       const db = req.app.get('db');
-      let products = await db.add_product([name, category, currentPrice]);
+      let products = await db.add_product([name, category, currentPrice, imageSource]);
       res.send(products);
     }
   };

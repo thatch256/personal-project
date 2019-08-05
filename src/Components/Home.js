@@ -16,9 +16,12 @@ class Home extends Component {
     let {products} = this.props
     return (
       <div>
+      <h1 className='home-products-name'>Products</h1>
+      <div>
         {products.map(product => (
           <Product key={product.id} {...product} />
         ))}
+      </div>
       </div>
     );
   }

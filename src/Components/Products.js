@@ -9,8 +9,9 @@ class Products extends Component {
     this.state = {
       name: "",
       category: "",
-      currentPrice: 0
-    }
+      currentPrice: 0,
+      imageSource: ""
+    };
   }
 
   componentDidMount() {
@@ -28,44 +29,53 @@ class Products extends Component {
   };
 
   addProduct = () => {
-    let { name, category, currentPrice } = this.state;
+    let { name, category, currentPrice, imageSource } = this.state;
     this.setState({
       name: "",
       category: "",
-      currentPrice: 0
+      currentPrice: 0,
+      imageSource: ""
     });
-    this.props.addProduct(name, category, currentPrice);
+    this.props.addProduct(name, category, currentPrice, imageSource);
   };
 
   render() {
-    let { name, category, currentPrice } = this.state;
+    let { name, category, currentPrice, imageSource } = this.state;
     let { products } = this.props;
     return (
       <div>
         {products.map(product => (
           <Product key={product.id} {...product} />
         ))}
-        {this.props.user.is_admin ? <div>
-          <input
-            type="text"
-            value={name}
-            name="name"
-            onChange={this.handleChange}
-          />
-          <input
-            type="text"
-            value={category}
-            name="category"
-            onChange={this.handleChange}
-          />
-          <input
-            type="number"
-            value={currentPrice}
-            name="currentPrice"
-            onChange={this.handleChange}
-          />
-          <button onClick={this.addProduct}>Add Product</button> 
-        </div> : null}
+        {this.props.user.is_admin ? (
+          <div>
+            <input
+              type="text"
+              value={name}
+              name="name"
+              onChange={this.handleChange}
+            />
+            <input
+              type="text"
+              value={category}
+              name="category"
+              onChange={this.handleChange}
+            />
+            <input
+              type="number"
+              value={currentPrice}
+              name="currentPrice"
+              onChange={this.handleChange}
+            />
+            <input
+              type="text"
+              value={imageSource}
+              name="imageSource"
+              onChange={this.handleChange}
+            />
+            <button onClick={this.addProduct}>Add Product</button>
+          </div>
+        ) : null}
       </div>
     );
   }

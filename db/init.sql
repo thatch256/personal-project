@@ -9,7 +9,8 @@ CREATE TABLE PRODUCTS (
 	id serial primary key,
 	name varchar(60) NOT NULL,
 	category varchar(60) NOT NULL,
-	current_price integer NOT NULL
+	current_price integer NOT NULL,
+	image_source varchar
 );
 
 CREATE TABLE ORDERS (
