@@ -11,8 +11,8 @@ class Product extends Component {
       editing: false,
       newName: props.name,
       newCategory: props.category,
-      newCurrentPrice: props.currentPrice,
-      newImageSource: props.imageSource,
+      newCurrentPrice: props.current_price,
+      newImageSource: props.image_source,
       quantity: 0
     };
   }
@@ -30,29 +30,30 @@ class Product extends Component {
     });
 
   delete = () => {
-    let { id, deleteProduct } = this.props;
-    deleteProduct(id);
+    let { id } = this.props;
+    this.props.deleteProduct(id);
   };
 
-  save = () => {
-    let { id, editProduct } = this.props;
+  saveChanges = () => {
+    let { id } = this.props;
     let { newName, newCategory, newCurrentPrice, newImageSource } = this.state;
-    editProduct(id, newName, newCategory, newCurrentPrice, newImageSource);
+    this.props.editProduct(
+      id,
+      newName,
+      newCategory,
+      newCurrentPrice,
+      newImageSource
+    );
   };
 
   componentDidUpdate(prevProps) {
-    let { name, category, currentPrice, imageSource } = prevProps;
-    if (
-      name !== this.props.name ||
-      category !== this.props.category ||
-      currentPrice !== this.props.currentPrice || 
-      imageSource !== this.props.imageSource
-    ) {
+    let { name, category, current_price, image_source } = this.props;
+    if (prevProps !== this.props) {
       this.setState({
         newName: name,
         newCategory: category,
-        newCurrentPrice: currentPrice,
-        newImageSource: imageSource,
+        newCurrentPrice: current_price,
+        newImageSource: image_source,
         editing: false
       });
     }
@@ -92,62 +93,97 @@ class Product extends Component {
   };
 
   render() {
-    let { name, category, current_price: currentPrice, image_source: imageSource, id } = this.props;
-    let { newName, newCategory, newCurrentPrice, newImageSource, editing } = this.state;
+    let {
+      name,
+      category,
+      current_price: currentPrice,
+      image_source: imageSource,
+      id
+    } = this.props;
+    let {
+      newName,
+      newCategory,
+      newCurrentPrice,
+      newImageSource,
+      editing
+    } = this.state;
     return (
       <div className="product-container">
         {editing ? (
-          <div>
-            <input
-              value={newName}
-              onChange={this.handleChange}
-              name="newName"
-            />
-            <input
-              value={newCategory}
-              onChange={this.handleChange}
-              name="newCategory"
-            />
-            <input
-              type="number"
-              value={newCurrentPrice}
-              onChange={this.handleChange}
-              name="newCurrentPrice"
-            />
-             <input
-              type="text"
-              value={newImageSource}
-              onChange={this.handleChange}
-              name="newImageSource"
-            />
+          <div className="editing-inputs">
             <div>
-              <button onClick={this.save}>Save Changes</button>
-              <button onClick={this.flipEdit}>Cancel</button>
+              Name:{" "}
+              <input
+                value={newName}
+                onChange={this.handleChange}
+                name="newName"
+              />
+            </div>
+            <div>
+              Category:{" "}
+              <input
+                value={newCategory}
+                onChange={this.handleChange}
+                name="newCategory"
+              />
+            </div>
+            <div>
+              Current Price:{" "}
+              <input
+                type="number"
+                value={newCurrentPrice}
+                onChange={this.handleChange}
+                name="newCurrentPrice"
+              />
+            </div>
+            <div>
+              Image:{" "}
+              <input
+                type="text"
+                value={newImageSource}
+                onChange={this.handleChange}
+                name="newImageSource"
+              />
+            </div>
+            <div>
+              <button className="edit-buttons" onClick={this.saveChanges}>Save Changes</button>
+              <button className="edit-buttons" onClick={this.flipEdit}>Cancel</button>
             </div>
           </div>
         ) : (
-          <div className='main-content'>
-            <h1 className='product-name'>{name}</h1>
-            <h5 className='product-category'>{category}</h5>
-            <h3 className='product-price'>${currentPrice}</h3>
-            <img alt='product' src={imageSource} />
-            <label>Quantity: </label>
-            <form>
+          <div className="main-content">
+            <h1 className="product-name">{name}</h1>
+            <h5 className="product-category">{category}</h5>
+            <h3 className="product-price">${currentPrice}</h3>
+            <img alt="product" src={imageSource} />
+            <label className="product-quantity">Quantity: </label>
+            <div className='quantity-inputs'>
               <input
+                className="quantity-value"
+                disabled
                 type="number"
                 name="quantity"
                 id="quantity"
                 value={this.state.quantity}
                 onChange={this.handleQuantity}
               />
-              <input type="button" onClick={this.incQuantity} value="+" />
-              <input type="button" onClick={this.decQuantity} value="-" />
-            </form>
-            <button onClick={() => this.addItemToCart(id)}>Add To Cart</button>
+              <button class="inc-button" onClick={this.incQuantity}>
+              <i class="fas fa-plus"></i>
+              </button>
+              <button class="dec-button" onClick={this.decQuantity}>
+              <i class="fas fa-minus"></i>
+              </button>
+            </div>
+            <button
+              className="addtocart-button"
+              onClick={() => this.addItemToCart(id)}
+            >
+              Add To Cart
+            </button>
             {this.props.user.is_admin ? (
               <div>
-                <button onClick={this.flipEdit}>Edit</button>
-                <button onClick={this.delete}>Delete</button>
+                <button className="edit-buttons" onClick={this.flipEdit}>Edit</button>
+                <button className="edit-buttons" onClick={this.delete}>Delete</button>
               </div>
             ) : null}
           </div>
@@ -158,7 +194,7 @@ class Product extends Component {
 }
 
 function mapStateToProps(state) {
-  return { ...state.user, };
+  return { ...state.user };
 }
 
 export default connect(

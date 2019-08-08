@@ -28,11 +28,11 @@ class Orders extends Component {
     return (
       <div>
         {!orderItems.length ? (
-          <div>
-            <div>You have no orders.</div>
+          <div className="register-display">
+            <div className='empty-orders'>You Have No Orders</div>
           </div>
         ) : (
-          <div>
+          <div className="orders-display">
             {filteredIdArray.map(number => (
               <OrderItems key={number} orderItemId={number} />
             ))}

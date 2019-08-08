@@ -20,11 +20,11 @@ class Login extends Component {
     });
   };
 
-  handleKeyDown = (e) => {
+  handleKeyDown = e => {
     if (e.keyCode === 13) {
-      this.loginUser()
+      this.loginUser();
     }
-  }
+  };
 
   loginUser = () => {
     let { email, password } = this.state;
@@ -37,8 +37,8 @@ class Login extends Component {
     if (user.loggedIn) return <Redirect to="/" />;
     return (
       <div>
-        <div>
-          <div>
+        <div className="register-display">
+          <div className="email-input">
             Email:{" "}
             <input
               type="text"
@@ -47,7 +47,7 @@ class Login extends Component {
               onChange={this.handleChange}
             />
           </div>
-          <div>
+          <div className="email-input">
             Password:{" "}
             <input
               type="password"
@@ -56,7 +56,9 @@ class Login extends Component {
               onChange={this.handleChange}
               onKeyDown={this.handleKeyDown}
             />
-            <button onClick={this.loginUser} >Login</button>
+          </div>
+          <div>
+            <button className='register-button' onClick={this.loginUser}>Login</button>
           </div>
         </div>
       </div>

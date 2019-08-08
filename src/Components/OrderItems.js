@@ -22,7 +22,7 @@ class OrderItems extends Component {
   };
 
   handleClick = orderItemId => {
-    this.setState({ orderItemId, showOrderDetails: true });
+    this.setState({ orderItemId, showOrderDetails: !this.state.showOrderDetails });
   };
 
   totalPrice = () => {
@@ -37,47 +37,54 @@ class OrderItems extends Component {
     let { orderItemId, orderItems } = this.props;
 
     return (
-      <div>
-        <div>
-          Order #{orderItemId}{" "}
-          <button onClick={() => this.handleClick(orderItemId)}>
-            Order Details
-          </button>
+      <div className='main-content'>
+        <div className='order-sum'>
+          <div className='order-number'>Order #{orderItemId}</div>
+          {this.state.showOrderDetails === true ? ( <div><button className="addtocart-button" onClick={() => this.handleClick(orderItemId)}>
+            Order Summary
+          </button></div> ) : 
+          <button className="addtocart-button" onClick={() => this.handleClick(orderItemId)}>
+          Order Details
+        </button>}
         </div>
         {this.state.showOrderDetails === true ? (
           <div>
             {this.state.showOrderDetails && this.order && (
               <div>
                 {this.order.map(orderItem => (
-                  <div>
-                    Item: {orderItem.name}
-                    Price: {orderItem.price}
-                    Quantity: {orderItem.quantity}
-                    <img alt='product' src={orderItem.imageSource} />
+                  <div className='order-products'>
+                    <div className='product-name'>Item: {orderItem.name}</div>
+                    <div className='product-price'>Price: ${orderItem.price}</div>
+                    <div className='product-quantity'>Quantity: {orderItem.quantity}</div>
+                    <img alt='product' src={orderItem.image_source} />
                   </div>
                 ))}
               </div>
             )}
-            Ordered On:{" "}
+            <div className='order-date'>Ordered On: {' '}
             {
               orderItems.find(item => item.order_id === orderItemId)
                 .formatted_order_date
             }
-            Total Price: ${this.totalPrice()}
-            <button onClick={this.removeOrder}>Cancel Order</button>
+            <div className="order-total-price">Total Price: ${this.totalPrice()} </div>
+            </div>
+            <button className="addtocart-button" onClick={this.removeOrder}>Cancel Order</button>
           </div>
         ) : (
           <div>
-            Ordered On:{" "}
+            <div className='order-date'>Ordered On: {' '}
             {
               orderItems.find(item => item.order_id === orderItemId)
                 .formatted_order_date
             }
+            </div>
+            <div className='order-items'>
             {orderItems.map(item => {
               if (item.order_id === orderItemId) {
                 return <div>{item.name}</div>;
               }
             })}
+            </div>
           </div>
         )}
       </div>
@@ -86,7 +93,7 @@ class OrderItems extends Component {
 }
 
 function mapStateToProps(state) {
-  return { ...state.orderItems };
+  return { ...state.orderItems, ...state.user };
 }
 
 export default connect(

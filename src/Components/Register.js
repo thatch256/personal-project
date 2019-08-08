@@ -28,11 +28,11 @@ class Register extends Component {
   render() {
     let { email, password } = this.state;
     let { user } = this.props;
-    if (user.loggedIn) return <Redirect to="/home" />;
+    if (user.loggedIn) return <Redirect to="/" />;
     return (
       <div>
-        <div>
-          <div>
+        <div className="register-display">
+          <div className='email-input'>
             Email:{" "}
             <input
               type="text"
@@ -41,7 +41,7 @@ class Register extends Component {
               onChange={this.handleChange}
             />
           </div>
-          <div>
+          <div className='email-input'>
             Password:{" "}
             <input
               type="password"
@@ -49,7 +49,9 @@ class Register extends Component {
               name="password"
               onChange={this.handleChange}
             />
-            <button onClick={this.registerUser}>Register</button>
+          </div>
+          <div>
+            <button className='register-button' onClick={this.registerUser}>Register</button>
           </div>
         </div>
       </div>

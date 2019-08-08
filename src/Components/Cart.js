@@ -24,15 +24,15 @@ class Cart extends Component {
       getUser();
     }
     getUserCart(id);
-    this.getTotalPrice()
-    console.log(this.state.totalPrice)
+    this.getTotalPrice();
+    console.log(this.state.totalPrice);
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (this.state.totalPrice !== prevState.totalPrice) {
-  //     this.getTotalPrice()
-  //   }
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps !== this.props) {
+      this.getTotalPrice();
+    }
+  }
 
   getTotalPrice = () => {
     let { cartItems } = this.props;
@@ -45,9 +45,8 @@ class Cart extends Component {
   };
 
   emptyCartItems = () => {
-    let { emptyCart } = this.props;
     let { user_cart_id } = this.props.user;
-    emptyCart(user_cart_id);
+    this.props.emptyCart(user_cart_id);
   };
 
   checkout = () => {
@@ -68,7 +67,7 @@ class Cart extends Component {
         console.log(res);
         alert(`Congratulations, you paid Lexy ${totalPrice}!`);
       });
-    this.checkout()
+    this.checkout();
   };
 
   render() {
@@ -78,27 +77,30 @@ class Cart extends Component {
     return (
       <div>
         {!cartItems.length ? (
-          <div>
-            <div>Cart is empty</div>
+          <div className="register-display">
+            <div className='empty-cart' >Cart Is Empty</div>
           </div>
         ) : (
           <div>
             {cartItems.map(cartItem => (
               <CartProducts key={cartItem.id} {...cartItem} />
             ))}
-            <h1>Total Price: ${this.state.totalPrice}</h1>
+            <h1 className="cart-total-price">
+              Total Price: ${this.state.totalPrice}
+            </h1>
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                marginTop: "50px"
+                marginTop: "50px",
+                marginBottom: '10px'
               }}
             >
               <StripeCheckout
-                name="Class" //header
+                name="HPP" //header
                 image={imageUrl}
-                description="This is stuff going beneath the header" //subtitle - beneath header
+                description="Payment for items being ordered" //subtitle - beneath header
                 stripeKey={process.env.REACT_APP_STRIPE_KEY} //public key not secret key
                 token={this.onToken} //fires the call back
                 totalPrice={this.state.totalPrice} //this will be in cents
